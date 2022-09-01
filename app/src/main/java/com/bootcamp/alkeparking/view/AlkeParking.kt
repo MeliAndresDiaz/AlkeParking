@@ -1,5 +1,6 @@
 package com.bootcamp.alkeparking.view
 
+import com.bootcamp.alkeparking.data.Parking
 import com.bootcamp.alkeparking.data.Vehicle
 import com.bootcamp.alkeparking.utils.*
 import java.util.*
@@ -10,25 +11,40 @@ fun main() {
 }
 
 private fun startAlkerParking() {
-    println("1. Ingresar vehiculo \n2. Retirar Vehiculo")
-    val reader = Scanner(System.`in`)
 
-    when (reader.nextInt()) {
-        1 -> {
-            addVehicle(
-                Vehicle(
-                    getLicensePlate(),
-                    getVehicleType(),
-                    Calendar.getInstance(),
-                    hasDiscountCard()
-                )
-            )
-        }
+    var parking = Parking(mutableSetOf())
+    var continueProgram = true
+    while (continueProgram) {
 
-        2 -> {
+        println("""
+            1. Ingresar vehículo 
+            2. Retirar vehículo
+            3. Vehículos retirados y sus ganacias
+            4. Vehículos en el parqueadero
+            5. Salir""".trimIndent())
+        val reader = Scanner(System.`in`)
+            when (reader.nextInt()) {
+                1 -> {
+                    val inserted: Boolean = parking.addVehicle(Vehicle(
+                        getLicensePlate(),
+                        getVehicleType(),
+                        Calendar.getInstance(),
+                        hasDiscountCard()
+                    ))
+                    if(inserted) println("Ingreso exitoso")
+                    else println("Lo siento, falló el ingreso del vehículo")
+                }
 
-        }
+                2 -> {
+                    val licensePlateRemove = getLicensePlate()
+                    parking.checkOutVehicle(licensePlateRemove)
+                }
 
-        else -> showErrorMessage("Por favor escoge una opcion valida")
+                5 -> continueProgram = false
+
+                else -> showErrorMessage("Por favor escoge una opción válida")
+            }
+            println(parking.vehicles.size)
     }
 }
+

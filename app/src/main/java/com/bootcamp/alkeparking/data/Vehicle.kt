@@ -1,5 +1,6 @@
 package com.bootcamp.alkeparking.data
 
+import com.bootcamp.alkeparking.utils.AlkerParkingConstants
 import com.bootcamp.alkeparking.utils.VehicleType
 import java.util.*
 
@@ -17,4 +18,7 @@ data class Vehicle(
     }
 
     override fun hashCode(): Int = this.licensePlate.hashCode()
+
+    val parkedTime: Long
+        get() = (Calendar.getInstance().timeInMillis - date.timeInMillis) / AlkerParkingConstants.MINUTES_IN_MILISECONDS
 }

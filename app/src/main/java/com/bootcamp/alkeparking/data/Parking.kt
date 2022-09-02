@@ -21,7 +21,7 @@ data class Parking(val vehicles: MutableSet<Vehicle>, var profits: Pair<Int, Int
     fun addVehicle(vehicle: Vehicle): String {
         return with(vehicles) {
             when {
-                vehicles.size == AlkeParkingConstants.MAXIMUM_LENGTH_VEHICLES -> "Sorry, the has check-in failed"
+                vehicles.size == AlkeParkingConstants.MAXIMUM_LENGTH_VEHICLES -> "Sorry, the parking is full"
                 add(vehicle) -> "Welcome to AlkeParking!"
                 else -> {
                     "Sorry, the has check-in failed"

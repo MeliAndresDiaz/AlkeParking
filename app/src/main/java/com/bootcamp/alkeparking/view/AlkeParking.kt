@@ -27,7 +27,7 @@ fun main() {
     val bus7 = Vehicle("AASS8828", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")
     val bus8 = Vehicle("AASS8878", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")//MISMA PLACA
     val bus9 = Vehicle("AASS8878", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")//MISMA PLACA
-    val bus10 = Vehicle("AASS87888", VehicleType.MiniBus, Calendar.getInstance(),)
+    val bus10 = Vehicle("AASS87888", VehicleType.MiniBus, Calendar.getInstance())
     val bus11 = Vehicle("AASS88788", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")
     val bus12 = Vehicle("AASS8898", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")
     val bus13 = Vehicle("AASS889/98", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")
@@ -36,13 +36,16 @@ fun main() {
     val bus16 = Vehicle("AASS887788", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")
     val bus17 = Vehicle("AASS885248", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")
     val bus18 = Vehicle("AASS883788", VehicleType.MiniBus, Calendar.getInstance(),"DISCOUNT_CARD_002")
-    val bus19 = Vehicle("AASS883788", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002") //CARRO NUMERO 21
+    val bus19 = Vehicle("AASS883714588", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002") //CARRO NUMERO 21
+    val bus20 = Vehicle("AASS88371iiii4588", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002") //CARRO NUMERO 22
 
-
-    val listVehiclesRegister = arrayOf(auto,bus,minibus,bus2,bus3,bus4,bus5,bus6,bus7,bus8,bus9,bus10,bus11,bus12,bus13,bus14,bus15,bus16,bus17,bus18,bus19)
+    val listVehiclesRegister = arrayOf(auto,bus,minibus,bus2,bus3,bus4,bus5,bus6,bus7,bus8,bus9,bus10,bus11,bus12,bus13,bus14,bus15,bus16,bus17,bus18,bus19,bus20)
     val parking = Parking(mutableSetOf(), Pair(0,0))
     listVehiclesRegister.forEach { print("${parking.addVehicle(it)}\n")}
 
-    val listVehiclesRegister2 = arrayOf(auto,bus)
-    listVehiclesRegister2.forEach { ParkingSpace(it).checkOutVehicle(it.licensePlate) }
+    parking.removeVehicle(auto)
+    parking.removeVehicle(bus10)
+    parking.removeVehicle(bus11)
+
+    parking.totalListVehicles()
 }

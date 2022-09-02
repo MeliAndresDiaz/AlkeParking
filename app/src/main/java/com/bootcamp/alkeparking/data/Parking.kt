@@ -18,7 +18,6 @@ data class Parking(val vehicles: MutableSet<Vehicle>, var profits: Pair<Int, Int
      * 4. Method saveEarnings() show the earnings and the total of vehicles go out
      */
 
-
     fun addVehicle(vehicle: Vehicle): String {
         return with(vehicles) {
             when {
@@ -32,6 +31,8 @@ data class Parking(val vehicles: MutableSet<Vehicle>, var profits: Pair<Int, Int
     }
 
     fun removeVehicle(vehicle: Vehicle) {
+        val parkingSpace =  ParkingSpace(vehicle)
+        parkingSpace.checkOutVehicle(vehicle.licensePlate)
         vehicles.remove(vehicle)
     }
 
@@ -44,7 +45,7 @@ data class Parking(val vehicles: MutableSet<Vehicle>, var profits: Pair<Int, Int
         vehicles.forEach { print("${it.licensePlate}\n") }
     }
 
-    fun saveEarnings(p1: Int, p2: Int){
-        println("$p1 vehicles have checked out and have earnings of $p2")
+    fun saveEarnings(profits: Pair<Int,Int>){
+        println("${profits.first} vehicles have checked out and have earnings of ${profits.second}")
     }
 }

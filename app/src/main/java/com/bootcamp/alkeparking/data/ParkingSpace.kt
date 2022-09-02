@@ -28,11 +28,12 @@ data class ParkingSpace(var vehicle: Vehicle) {
 
     private var countVehicle: Int = 0
     private var totalEarning: Int = 0
+    private var randomType = (120..300)
 
-    private val parking = Parking(mutableSetOf(vehicle), Pair(countVehicle,totalEarning))
+    private val parking = Parking(mutableSetOf(vehicle), Pair(countVehicle, totalEarning))
 
     private val parkedTime: Long
-        get() = ((Calendar.getInstance().timeInMillis - vehicle.checkInTime.timeInMillis) / MINUTES_IN_MILLISECONDS) + 185
+        get() = ((Calendar.getInstance().timeInMillis - vehicle.checkInTime.timeInMillis) / MINUTES_IN_MILLISECONDS) + randomType.random()
 
     fun checkOutVehicle(plate: String) {
         parking.searchVehicle(plate)?.let {
@@ -42,16 +43,15 @@ data class ParkingSpace(var vehicle: Vehicle) {
                 hasDiscountCard(it.discountCard)
             )
             onSuccess(earning)
-            parking.removeVehicle(it)
             countVehicle++
             totalEarning += earning
-            parking.saveEarnings(countVehicle,totalEarning)
+            parking.profits = Pair(countVehicle, totalEarning)
+            parking.saveEarnings(parking.profits)
         } ?: onError()
     }
 
-    //function that shows the ok if the checkout was correct
     private fun onSuccess(totalAmount: Int) {
-        println("Your fee is $totalAmount, Come back soon")
+        println("\nYour fee is $totalAmount, Come back soon")
     }
 
     private fun onError() {
@@ -62,7 +62,11 @@ data class ParkingSpace(var vehicle: Vehicle) {
         return discount.isNullOrEmpty().not()
     }
 
-    private fun calculateFee(vehicleType: VehicleType, parkedTime: Int, hasDiscountCard: Boolean): Int {
+    private fun calculateFee(
+        vehicleType: VehicleType,
+        parkedTime: Int,
+        hasDiscountCard: Boolean
+    ): Int {
         return when {
             parkedTime <= INITIAL_TIME_MINUTES -> getFeeWithoutExtraTime(
                 vehicleType.price,

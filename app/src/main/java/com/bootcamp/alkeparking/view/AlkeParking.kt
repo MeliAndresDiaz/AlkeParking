@@ -8,7 +8,14 @@ import java.util.*
 
 fun main() {
 
-    //testing
+    /**
+     * 1. Vehicle entries are created on the set
+     * 2. Variable listVehicleRegister() sets the vehicles on the array
+     * 3. Variable parking is the instance of Parking data class
+     * 4. In line 43 is used for show the entrie of the error on addVehicle()
+     * 5. The lines 46 and 47 are used to test checkOutVehicle()
+     */
+
     val auto = Vehicle("AAA34123", VehicleType.Car, Calendar.getInstance(), "DISCOUNT_CARD_001")
     val bus = Vehicle("AAA341223", VehicleType.Bus, Calendar.getInstance(), "DISCOUNT_CARD_001")
     val minibus = Vehicle("AAA341663", VehicleType.MiniBus, Calendar.getInstance(), "DISCOUNT_CARD_002")
@@ -38,5 +45,4 @@ fun main() {
 
     val listVehiclesRegister2 = arrayOf(auto,bus)
     listVehiclesRegister2.forEach { ParkingSpace(it).checkOutVehicle(it.licensePlate) }
-    //parking.totalListVehicles()
 }

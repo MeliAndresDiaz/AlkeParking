@@ -1,6 +1,5 @@
 package com.bootcamp.alkeparking.data
 
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants
 import com.bootcamp.alkeparking.utils.VehicleType
 import java.util.*
 

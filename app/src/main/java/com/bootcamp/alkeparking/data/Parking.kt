@@ -1,6 +1,6 @@
 package com.bootcamp.alkeparking.data
 
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants
+import com.bootcamp.alkeparking.utils.AlkeParkingConstants
 
 /**
  * ¿Por que se define vehicles como un Set?
@@ -10,13 +10,19 @@ import com.bootcamp.alkeparking.utils.AlkerParkingConstants
 
 data class Parking(val vehicles: MutableSet<Vehicle>, var profits: Pair<Int, Int>) {
 
-    //var vehiclesremove: Pair<Int,Int> = Pair(0,0)
+    /**
+     * 1. Method addVehicle() return true or false according to the result of the process
+     * 2. Method removeVehicle() search the licensePlate on the set and removes the vehicle
+     * 3. Method searchVehicle() is used to search a licensePlate within the set and calculate the
+     *    amount of parking fees to be paid
+     * 4. Method saveEarnings() show the earnings and the total of vehicles go out
+     */
 
-    //method to add vehicles, if added returns true else false xd
+
     fun addVehicle(vehicle: Vehicle): String {
         return with(vehicles) {
             when {
-                vehicles.size == AlkerParkingConstants.MAXIMUM_LENGTH_VEHICLES -> "Sorry, the has check-in failed"
+                vehicles.size == AlkeParkingConstants.MAXIMUM_LENGTH_VEHICLES -> "Sorry, the has check-in failed"
                 add(vehicle) -> "Welcome to AlkeParking!"
                 else -> {
                     "Sorry, the has check-in failed"
@@ -29,7 +35,7 @@ data class Parking(val vehicles: MutableSet<Vehicle>, var profits: Pair<Int, Int
         vehicles.remove(vehicle)
     }
 
-    fun searchvehicle(plate: String): Vehicle? {
+    fun searchVehicle(plate: String): Vehicle? {
         return vehicles.find { it.licensePlate == plate }
     }
 
@@ -41,10 +47,4 @@ data class Parking(val vehicles: MutableSet<Vehicle>, var profits: Pair<Int, Int
     fun saveEarnings(p1: Int, p2: Int){
         println("$p1 vehicles have checked out and have earnings of $p2")
     }
-
-   /* fun saveEarnings(vehiclesremove: Pair<Int,Int>){
-        this.vehiclesremove = this.vehiclesremove.copy(first = vehiclesremove.first, second = vehiclesremove.second)
-        println("${vehiclesremove.first} vehicles have checked out and have earnings of ${vehiclesremove.second}")
-
-    }*/
 }

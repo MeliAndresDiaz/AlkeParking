@@ -1,26 +1,41 @@
 package com.bootcamp.alkeparking.data
 
 import java.util.*
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants.DISCOUNT_PERCENTAGE
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants.EXTRA_FEE
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants.INITIAL_TIME_MINUTES
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants.MINUTES_IN_MILISECONDS
-import com.bootcamp.alkeparking.utils.AlkerParkingConstants.QUARTER_HOUR
+import com.bootcamp.alkeparking.utils.AlkeParkingConstants.DISCOUNT_PERCENTAGE
+import com.bootcamp.alkeparking.utils.AlkeParkingConstants.EXTRA_FEE
+import com.bootcamp.alkeparking.utils.AlkeParkingConstants.INITIAL_TIME_MINUTES
+import com.bootcamp.alkeparking.utils.AlkeParkingConstants.MINUTES_IN_MILLISECONDS
+import com.bootcamp.alkeparking.utils.AlkeParkingConstants.QUARTER_HOUR
 import com.bootcamp.alkeparking.utils.VehicleType
+import kotlin.math.ceil
 
 data class ParkingSpace(var vehicle: Vehicle) {
 
+    /**
+     * 1. The variables countVehicle and totalEarnings represent the number of vehicles withdraw and
+     *    the total earnings.
+     * 2. The val parking is an instance of the data class Parking()
+     * 3. 1. Method checkOutVehicle() search a vehicle with the function searchVehicle(), with result
+     *    the fee is calculate, also with function removeVehicle() the vehicle is remove on the set
+     * 4. The val parkedTime represents the amount of time the vehicle was parking
+     * 5. Method checkOutVehicle() search a vehicle with the function searchVehicle(), with result
+     *    the fee is calculate, also with function removeVehicle() the vehicle is remove on the set
+     * 6. Functions onSuccess and onError are used on the method checkOutVehicle for print result
+     * 7. Function hasDiscountCard is used to return a value that can be true or false
+     * 8. Method calculateFee() calculate the total amount to be paid for the vehicle
+     * 9. Functions getFeeWithoutExtraTime and getFeeWithExtraTime() calculate the fee in both cases
+     */
+
     private var countVehicle: Int = 0
-    var totalEarning: Int = 0
+    private var totalEarning: Int = 0
 
     private val parking = Parking(mutableSetOf(vehicle), Pair(countVehicle,totalEarning))
 
     private val parkedTime: Long
-        get() = ((Calendar.getInstance().timeInMillis - vehicle.checkInTime.timeInMillis) / MINUTES_IN_MILISECONDS) + 185
+        get() = ((Calendar.getInstance().timeInMillis - vehicle.checkInTime.timeInMillis) / MINUTES_IN_MILLISECONDS) + 185
 
     fun checkOutVehicle(plate: String) {
-        parking.searchvehicle(plate)?.let {
+        parking.searchVehicle(plate)?.let {
             val earning = calculateFee(
                 it.type,
                 parkedTime.toInt(),
@@ -47,7 +62,7 @@ data class ParkingSpace(var vehicle: Vehicle) {
         return discount.isNullOrEmpty().not()
     }
 
-    fun calculateFee(vehicleType: VehicleType, parkedTime: Int, hasDiscountCard: Boolean): Int {
+    private fun calculateFee(vehicleType: VehicleType, parkedTime: Int, hasDiscountCard: Boolean): Int {
         return when {
             parkedTime <= INITIAL_TIME_MINUTES -> getFeeWithoutExtraTime(
                 vehicleType.price,
@@ -63,15 +78,15 @@ data class ParkingSpace(var vehicle: Vehicle) {
         }
     }
 
-    fun getFeeWithoutExtraTime(fee: Int, hasDiscountCard: Boolean): Int {
+    private fun getFeeWithoutExtraTime(fee: Int, hasDiscountCard: Boolean): Int {
         if (hasDiscountCard) {
             return (fee - (fee * DISCOUNT_PERCENTAGE)).toInt()
         }
         return fee
     }
 
-    fun getFeeWithExtraTime(fee: Int, hasDiscountCard: Boolean): Int {
-        val newTime = Math.ceil(((parkedTime - INITIAL_TIME_MINUTES) / QUARTER_HOUR).toDouble())
+    private fun getFeeWithExtraTime(fee: Int, hasDiscountCard: Boolean): Int {
+        val newTime = ceil(((parkedTime - INITIAL_TIME_MINUTES) / QUARTER_HOUR).toDouble())
         val feeExtra = fee + (newTime * EXTRA_FEE)
 
         if (hasDiscountCard) {

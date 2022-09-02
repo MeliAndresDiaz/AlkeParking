@@ -7,7 +7,7 @@ import java.util.*
 data class Vehicle(
     var licensePlate: String,
     var type: VehicleType,
-    var date: Calendar,
+    var checkInTime: Calendar,
     var discountCard: String? = null
 ) {
     override fun equals(other: Any?): Boolean {
@@ -18,7 +18,4 @@ data class Vehicle(
     }
 
     override fun hashCode(): Int = this.licensePlate.hashCode()
-
-    val parkedTime: Long
-        get() = (Calendar.getInstance().timeInMillis - date.timeInMillis) / AlkerParkingConstants.MINUTES_IN_MILISECONDS
 }
